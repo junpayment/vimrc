@@ -1,0 +1,50 @@
+"---------------------------
+" Start Neobundle Settings.
+"---------------------------
+" bundleで管理するディレクトリを指定
+set runtimepath+=~/.vim/bundle/neobundle.vim/
+
+" Required:
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+" neobundle自体をneobundleで管理
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" 今後このあたりに追加のプラグインをどんどん書いて行きます！！"
+
+call neobundle#end()
+
+" Required:
+filetype plugin indent on
+
+" 未インストールのプラグインがある場合、インストールするかどうかを尋ねてくれるようにする設定
+" 毎回聞かれると邪魔な場合もあるので、この設定は任意です。
+NeoBundleCheck
+
+"-------------------------
+" End Neobundle Settings.
+"-------------------------
+
+" Required:
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+" neobundle自体をneobundleで管理
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" Easy Align
+NeoBundle 'junegunn/vim-easy-align'
+ 
+" NERDTree
+NeoBundle 'scrooloose/nerdtree'
+
+call neobundle#end()
+ 
+"-------------------------
+" key settings
+"-------------------------
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+ 
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+

@@ -127,3 +127,60 @@ function! s:Byte2hex(bytes)
   return join(map(copy(a:bytes), 'printf("%02X", v:val)'), '')
 endfunction
 
+set runtimepath+=~/vimruntime
+
+" Auto JDoc Commands
+autocmd FileType javascript nmap <C-c>c :call JsJDoc()<CR>
+autocmd FileType php nmap <C-c>c :call PhpJDoc()<CR>
+
+" Insert JDoc Comment
+" param summary: Summary of the function
+" param args: list of arguments' name
+function! AddJDocComment(summary, args)
+    let c = indent(".") / &tabstop
+    let top = a:firstline - 1 
+    let l = a:firstline - 1 
+    let s = ''
+    while len(s) < (c) 
+    let s = s . "\t"
+    endwhile
+       
+    call append(l, s . '/**')
+    let l+=1
+    call append(l, s . ' * ' . a:summary)
+    let l+=1
+       
+    for arg in a:args
+        call append(l, s . ' * @param ' . matchstr(arg, '[^$].*') . ' ')
+        let l+=1
+    endfor
+
+    call append(l, s . ' * @return ')
+    let l+=1
+    call append(l, s . ' */')
+
+    call cursor(top+2, 80) 
+endfunction
+
+" Insert JDoc Comment in Js source code
+function! JsJDoc()
+    let args = split(matchstr(getline('.'), 'function(\zs.*\ze)'),' *, *')
+    call AddJDocComment('', args)
+endfunction
+
+" Insert JDoc Comment in PHP source code
+function! PhpJDoc()
+    let args = split(matchstr(getline('.'), 'function [^(]*(\zs.*\ze)'),' *, *')
+    call AddJDocComment('', args)
+endfunction
+
+" indent settings
+set tabstop=4
+set autoindent
+set expandtab
+set shiftwidth=4
+
+set nowrap
+
+source ~/.vim/conf.d/*.rc
+
